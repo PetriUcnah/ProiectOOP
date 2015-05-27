@@ -4,11 +4,11 @@ int ComputerPart::getPrice(){
 	return price;
 }
 
-char * ComputerPart:: getName(){
+string ComputerPart:: getName(){
 	return name;
 }
 
-void ComputerPart:: setName(char *name){
+void ComputerPart:: setName(string name){
 	this->name=name;
 }
 

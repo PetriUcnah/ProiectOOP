@@ -3,5 +3,6 @@
 #include "HasButtons.h"
 
 class Keyboard : public ComputerPart, public HasButtons{
-	Keyboard(int, char*, int);
+public:
+	Keyboard(int, string, int);
 };

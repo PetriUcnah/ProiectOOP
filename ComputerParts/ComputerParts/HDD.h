@@ -3,6 +3,6 @@
 #include "HasMemory.h"
 
 class HDD: public ComputerPart, public HasMemory{
-
-	HDD(int, char*, int, int);
+public:
+	HDD(int, string, int, int);
 };

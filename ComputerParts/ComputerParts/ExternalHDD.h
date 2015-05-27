@@ -4,6 +4,6 @@
 #include "HasButtons.h"
 
 class ExternalHDD : public ComputerPart, public HasMemory, public HasButtons{
-
-	ExternalHDD(int, char*, int, int, int);
+public:
+	ExternalHDD(int, int, int, int,string);
 };

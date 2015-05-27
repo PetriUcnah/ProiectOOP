@@ -1,16 +1,18 @@
 #pragma once
+#include <string>
+using namespace std;
 
-class ComputerPart{
+class ComputerPart {
 
 private:
 	int price;
-	char * name;
+	string name;
 
 protected:
 	virtual void setPrice(int price);
-	virtual void setName(char *name);
+	virtual void setName(string name);
 
 public:
 	virtual int getPrice();
-	virtual char * getName();
+	virtual string getName();
 };

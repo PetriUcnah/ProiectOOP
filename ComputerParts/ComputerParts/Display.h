@@ -3,6 +3,6 @@
 #include "HasButtons.h"
 
 class Display: public ComputerPart, public HasButtons{
-
-	Display(int, char*, int);
+public:
+	Display(int, string, int);
 };

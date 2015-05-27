@@ -3,6 +3,6 @@
 #include "HasButtons.h"
 
 class Mouse: public ComputerPart, public HasButtons{
-
-	Mouse(int, char*, int);
+public:
+	Mouse(int, string, int);
 };

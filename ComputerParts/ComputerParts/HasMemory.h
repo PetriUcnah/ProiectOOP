@@ -8,9 +8,11 @@ private:
 	int frequency;
 
 protected:
-	virtual void setMemory(int capacity, int frequency);
+	int getCap() { return capacity; }
+	int getFreq() { return frequency; }
+	void setMemory(int capacity, int frequency) { this->capacity = capacity; this->frequency = frequency; }
 
 public:
-	virtual int getCapacity();
-	virtual int getFrequency();
+	virtual int getCapacity(){ return capacity; }
+	virtual int getFrequency(){ return frequency; }
 };

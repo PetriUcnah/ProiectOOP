@@ -5,8 +5,11 @@ private:
 	int numOfButtons;
 
 protected:
-	void setNumOfButtons(int);
+	int getNum(){ return numOfButtons; }
+	void setNumOfButtons(int num){ numOfButtons = num; }
 
 public:
-	int getNumOfButtons();
+	virtual int getNumOfButtons() {
+		return numOfButtons;
+	}
 };

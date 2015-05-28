@@ -16,65 +16,68 @@
 
 using namespace std;
 
-int main(){
-	const char computerPart[5][20]={"ExternalHDD","HDD","Mouse","Keyboard","Display"};
-	const string names[5] ={"Samsung","Kingston","A4Tech","Logitech","LG"};
-	cout<<"Introduceti numarul de componente:";
-	int numberOfParts;
-	cin>>numberOfParts;
-	ComputerPart **computerPartVector=new ComputerPart*[numberOfParts];
-	srand(time(NULL));
-	for(int i=0;i<numberOfParts;i++){
-		int randomComputerPart=rand() %5;
-		int randomPartName=rand()%5;
-		int randomPrice=rand()%100;
-		int randomFrequency=rand()%100;
-		int randomCapacity=rand()%1024;
-		int randomNumberOfButtons=rand()%20;
-		switch(randomComputerPart){
-			case 0:{
-				computerPartVector[i]=new ExternalHDD(randomPrice,randomCapacity,randomFrequency,randomNumberOfButtons,names[randomPartName]);
-				break;
-			}
-			case 1:{
-				computerPartVector[i]=new HDD(randomPrice,names[randomPartName],randomCapacity,randomFrequency);
-				break;
-			}
-			case 2:{
-			
-				computerPartVector[i]=new Mouse(randomPrice,names[randomPartName],randomNumberOfButtons);
-				break;
-			}
-			case 3:{
-				computerPartVector[i]= new Keyboard(randomPrice,names[randomPartName],randomNumberOfButtons);
-				break;
-			}
-			case 4:{
-				computerPartVector[i]=new Display(randomPrice,names[randomPartName],randomNumberOfButtons);
-				break;
-			}	 
-		}
+void toPrint(ComputerPart& part) {
+	cout << part.getName() << " " << part.getType() << " (" << typeid(part).name() << ")" << endl;
+
+	//daca se poate converti la obiect de tip HasMemory
+	if (HasMemory* partWithMemory = dynamic_cast<HasMemory*>(&part)) {
+		cout << "\tMemory capacity :\t" << partWithMemory->getCapacity() << "MB" << endl;
+		cout << "\tMemory frequency :\t" << partWithMemory->getFrequency() << "Hz" << endl;
+	}				//niciodata nu se intra in if-urile astea 2.
+					//	asta e exact ce trebuie rezolvat pentru ca sa putem sa impartim vectorul in cele 2 parti.
+	//daca se poate converti la obiect de tip HasButtons
+	if (HasButtons* partWithButtons = dynamic_cast<HasButtons*>(&part)) {
+		cout << "\tNumber of buttons :\t" << partWithButtons->getNumOfButtons() << endl;
 	}
-	HasButtons *hasButtonsVector=new HasButtons[numberOfParts];
-	HasMemory *hasMemoryVector=new HasMemory[numberOfParts];
-	int nr=0;
-	for(int i=0;i<numberOfParts;i++){
-		cout<<typeid(*computerPartVector[i]).name()<<endl;
-		if(typeid(Keyboard)==typeid(*computerPartVector[i])){
-			//hasButtonsVector[i]=computerPartVector[i];
+	cout << "\t\tPrice :\t$" << part.getPrice() << endl << endl;
+}
+
+int main(){
+	const char computerPart[5][20] = { "ExternalHDD", "HDD", "Mouse", "Keyboard", "Display" };
+	const string names[5] = { "Samsung", "Kingston", "A4Tech", "Logitech", "LG" };
+	cout << "Introduceti numarul de componente:";
+	int numberOfParts;
+	cin >> numberOfParts;
+	vector<ComputerPart*> computerPartVector;
+	srand(time(NULL));
+	for (int i = 0; i < numberOfParts; i++){
+		int randomComputerPart = rand() % 5;
+		int randomPartName = rand() % 5;
+		int randomPrice = rand() % 100;
+		int randomFrequency = rand() % 1000 + 1000;
+		int randomCapacity = rand() % 1000 + 1000;
+		int randomNumberOfButtons = rand() % 20;
+		ComputerPart *part;
+		switch (randomComputerPart){
+		case 0: {
+			part = new ExternalHDD(randomPrice, randomCapacity, randomFrequency, randomNumberOfButtons, names[randomPartName]);
+			break;
 		}
-		if(typeid(Mouse)==typeid(*computerPartVector[i])){
-			//
+		case 1: {
+			part = new HDD(randomPrice, names[randomPartName], randomCapacity, randomFrequency);
+			break;
 		}
-		if(typeid(HDD)==typeid(*computerPartVector[i])){
-			//
+		case 2: {
+			part = new Mouse(randomPrice, names[randomPartName], randomNumberOfButtons);
+			break;
 		}
-		if(typeid(ExternalHDD)==typeid(*computerPartVector[i])){
-			//
+		case 3: {
+			part = new Keyboard(randomPrice, names[randomPartName], randomNumberOfButtons);
+			break;
 		}
-		if(typeid(Display)==typeid(*computerPartVector[i])){
-			//
+		case 4: {
+			part = new Display(randomPrice, names[randomPartName], randomNumberOfButtons);
+			break;
 		}
+		}
+		computerPartVector.push_back(part);
+	}
+
+	vector<HasButtons*> hasButtonsVector;
+	vector<HasMemory*> hasMemoryVector;
+	cout << "Your computer parts:" << endl << endl;
+	for (int i = 0; i < numberOfParts; i++){
+		toPrint(*computerPartVector[i]);
 	}
 	return 0;
 }

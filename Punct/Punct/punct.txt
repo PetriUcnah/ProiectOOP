@@ -1,5 +1,8 @@
+5 -2 negru
 3 7
 3 9 alb
 10 3 verde
+5 6 alb
 -1 7
 -2 -3 verde
+5 2 alb

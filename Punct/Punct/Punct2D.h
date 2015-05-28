@@ -1,4 +1,7 @@
 #pragma once
+#include <iostream>
+
+using namespace std;
 
 class Punct2D{
 public:
@@ -14,4 +17,5 @@ protected:
 public:
 	int getX();
 	int getY();
+	friend ostream& operator<<(ostream& out, Punct2D&);
 };

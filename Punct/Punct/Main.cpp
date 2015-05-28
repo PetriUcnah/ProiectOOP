@@ -6,64 +6,38 @@
 #include <vector>
 using namespace std;
 
-int main(){
-
-	ifstream fin("punct.txt");
-	char citire[50];
-	int x=0,y=0,ok=0,vectorSize=0;
+int main()
+{
+	FILE *fis = fopen("punct.txt", "r");
+	int x, y, aux = 0;
 	char culoare[20];
-	vector <Punct2DColorat*> vector2DColorat;
-	memset(culoare,0,sizeof(culoare));
-	while(fin.getline(citire,50)){
-		int nr=0;
-		bool negativex=false;
-		bool negativey=false;
-		x=0;
-		y=0;
-		ok=0;
-		for(int i=0;i<strlen(citire);){
-			if(citire[i]=='-'){
-				if(ok==0)
-					negativex=true;
-				else
-					negativey=true;
-				i++;
-			}
-			if(citire[i]==' '){
-				ok=1;
-				i++;
-			}
-			while(isdigit(citire[i])){
-				if(ok==0)
-					x=x*10+citire[i]-'0';
-				else
-					y=y*10+citire[i]-'0';
-			    i++;
-			}
-			if(isalpha(citire[i])){
-				culoare[nr++]=citire[i];
-				i++;
+
+	//am incercat sa le pun pe toate intr-un singur vector.
+	//aceeasi problema, nu stiu apoi cum sa le separ unele de altele.
+	//le-am pus separat, vom modifica.
+
+	vector <Punct2D*> vectorPuncte;
+	vector <Punct2DColorat*> vectorPuncteColorate;
+
+	while (!feof(fis)){
+		if (fscanf(fis, "%d %d %d", &x, &y, &aux) == 3) {
+			Punct2D *punct = new Punct2D(x, y);
+			vectorPuncte.push_back(punct);
+			x = aux;
+			while (!feof(fis) && fscanf(fis, "%d %d", &y, &aux) == 2) {
+				punct = new Punct2D(x, y);
+				vectorPuncte.push_back(punct);
+				x = aux;
 			}
 		}
-		if(negativex==true){
-			x=x*(-1);
-		}
-		if(negativey==true){
-			y=y*(-1);
-		}
-			if(nr!=0){
-				string culoare1(culoare);
-				Punct2DColorat *vector2D=new Punct2DColorat(culoare1,x,y);
-				vector2DColorat.push_back(vector2D);
-				vectorSize++;
-			}
+		fscanf(fis, "%s", &culoare);
+		Punct2DColorat *punct = new Punct2DColorat(culoare, x, y);
+		vectorPuncteColorate.push_back(punct);
 	}
-	for(int i=0;i<vector2DColorat.size();i++){
-		if(vector2DColorat[i]->getCuloare()=="alb" && vector2DColorat[i]->getX()>0 && vector2DColorat[i]->getY()>0){
-			cout<<"X:"<<vector2DColorat[i]->getX()<<endl;
-			cout<<"Y:"<<vector2DColorat[i]->getY()<<endl;
-			cout<<"Culoare:"<<vector2DColorat[i]->getCuloare()<<endl;
-		}
+	for (int i = 0; i < vectorPuncteColorate.size(); i++) {
+		if (vectorPuncteColorate[i]->getX() > 0 && vectorPuncteColorate[i]->getY() > 0 && vectorPuncteColorate[i]->getCuloare() == "alb")
+			cout << *vectorPuncteColorate[i];
 	}
+	cout << endl;
 	return 0;
 }

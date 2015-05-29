@@ -16,29 +16,29 @@
 
 using namespace std;
 
-void toPrint(ComputerPart& part) {
-	cout << part.getName() << " " << part.getType() << " (" << typeid(part).name() << ")" << endl;
+void toPrint(ComputerPart* part) {
+	cout << part->getName() << " " << part->getType() << endl;
 
-	//daca se poate converti la obiect de tip HasMemory
-	if (HasMemory* partWithMemory = dynamic_cast<HasMemory*>(&part)) {
+	HasMemory* partWithMemory = dynamic_cast<HasMemory*>(part);
+	if (partWithMemory != NULL) {
 		cout << "\tMemory capacity :\t" << partWithMemory->getCapacity() << "MB" << endl;
 		cout << "\tMemory frequency :\t" << partWithMemory->getFrequency() << "Hz" << endl;
-	}				//niciodata nu se intra in if-urile astea 2.
-					//	asta e exact ce trebuie rezolvat pentru ca sa putem sa impartim vectorul in cele 2 parti.
-	//daca se poate converti la obiect de tip HasButtons
-	if (HasButtons* partWithButtons = dynamic_cast<HasButtons*>(&part)) {
+	}
+
+	HasButtons* partWithButtons = dynamic_cast<HasButtons*>(part);
+	if (partWithButtons != NULL) {
 		cout << "\tNumber of buttons :\t" << partWithButtons->getNumOfButtons() << endl;
 	}
-	cout << "\t\tPrice :\t$" << part.getPrice() << endl << endl;
+	cout << "\t\tPrice :\t$" << part->getPrice() << endl << endl;
 }
 
-int main(){
-	const char computerPart[5][20] = { "ExternalHDD", "HDD", "Mouse", "Keyboard", "Display" };
-	const string names[5] = { "Samsung", "Kingston", "A4Tech", "Logitech", "LG" };
-	cout << "Introduceti numarul de componente:";
+void generateParts(vector<ComputerPart*> &computerParts) {
+	char* computerPart[5] = { "ExternalHDD", "HDD", "Mouse", "Keyboard", "Display" };
+	char* names[5] = { "Samsung", "Kingston", "A4Tech", "Logitech", "LG" };
+	cout << "Enter number of parts: ";
 	int numberOfParts;
 	cin >> numberOfParts;
-	vector<ComputerPart*> computerPartVector;
+	cout << endl;
 	srand(time(NULL));
 	for (int i = 0; i < numberOfParts; i++){
 		int randomComputerPart = rand() % 5;
@@ -46,7 +46,7 @@ int main(){
 		int randomPrice = rand() % 100;
 		int randomFrequency = rand() % 1000 + 1000;
 		int randomCapacity = rand() % 1000 + 1000;
-		int randomNumberOfButtons = rand() % 20;
+		int randomNumberOfButtons = rand() % 19 + 1;
 		ComputerPart *part;
 		switch (randomComputerPart){
 		case 0: {
@@ -70,14 +70,67 @@ int main(){
 			break;
 		}
 		}
-		computerPartVector.push_back(part);
+		computerParts.push_back(part);
 	}
+}
 
-	vector<HasButtons*> hasButtonsVector;
-	vector<HasMemory*> hasMemoryVector;
-	cout << "Your computer parts:" << endl << endl;
-	for (int i = 0; i < numberOfParts; i++){
-		toPrint(*computerPartVector[i]);
+void separateParts(vector<ComputerPart*> initialVector, vector<HasMemory*> &partsWithMemory, vector<HasButtons*> &partsWithButtons) {
+	for (int i = 0; i < initialVector.size(); i++){
+		HasMemory* partWithMemory = dynamic_cast<HasMemory*>(initialVector[i]);
+		if (partWithMemory != NULL) {
+			partsWithMemory.push_back(partWithMemory);
+		}
+
+		HasButtons* partWithButtons = dynamic_cast<HasButtons*>(initialVector[i]);
+		if (partWithButtons != NULL) {
+			partsWithButtons.push_back(partWithButtons);
+		}
 	}
+}
+
+bool memoryCriteria(HasMemory* first, HasMemory* second) {
+	if (first->getCapacity() > second->getCapacity()) {
+		return true;
+	}
+	return false;
+}
+
+bool buttonsCriteria(HasButtons* first, HasButtons* second) {
+	if (first->getNumOfButtons() > second->getNumOfButtons()) {
+		return true;
+	}
+	return false;
+}
+
+void sortVectors(vector<HasMemory*> &partsWithMemory, vector<HasButtons*> &partsWithButtons) {
+	sort(partsWithMemory.begin(), partsWithMemory.end(), memoryCriteria);
+	sort(partsWithButtons.begin(), partsWithButtons.end(), buttonsCriteria);
+}
+
+template <class type>
+void showVector(vector<type> partVector) {
+	for (int i = 0; i < partVector.size(); i++) {
+		ComputerPart* part = dynamic_cast<ComputerPart*>(partVector[i]);
+		toPrint(part);
+	}
+}
+
+int main() {
+	vector<ComputerPart*> computerPartVector;
+
+	generateParts(computerPartVector);
+
+	vector<HasMemory*> hasMemoryVector;
+	vector<HasButtons*> hasButtonsVector;
+
+	separateParts(computerPartVector, hasMemoryVector, hasButtonsVector);
+
+	sortVectors(hasMemoryVector, hasButtonsVector);
+
+	cout << "Sorted parts with memory:" << endl << endl;
+	showVector(hasMemoryVector);
+	cout << "Sorted parts with buttons:" << endl << endl;
+	showVector(hasButtonsVector);
+
 	return 0;
 }

@@ -6,11 +6,11 @@ int ComputerPart::getPrice(){
 	return price;
 }
 
-string ComputerPart::getName(){
+char* ComputerPart::getName(){
 	return name;
 }
 
-void ComputerPart::setName(string name){
+void ComputerPart::setName(char* name){
 	this->name = name;
 }
 
@@ -18,10 +18,10 @@ void ComputerPart::setPrice(int price){
 	this->price = price;
 }
 
-void ComputerPart::setType(string type) {
+void ComputerPart::setType(char* type) {
 	this->type = type;
 }
 
-string ComputerPart::getType() {
+char* ComputerPart::getType() {
 	return type;
 }

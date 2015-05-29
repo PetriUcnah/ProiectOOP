@@ -2,7 +2,9 @@
 #include "ComputerPart.h"
 #include "HasButtons.h"
 
-class Keyboard : public ComputerPart, virtual HasButtons{
+class Keyboard : public ComputerPart, public HasButtons{
 public:
-	Keyboard(int, string, int);
+	Keyboard(int, char*, int);
+	bool hasMemory();
+	bool hasButtons();
 };

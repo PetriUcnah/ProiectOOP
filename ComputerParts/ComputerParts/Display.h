@@ -2,7 +2,9 @@
 #include "ComputerPart.h"
 #include "HasButtons.h"
 
-class Display: public ComputerPart, virtual HasButtons{
+class Display: public ComputerPart, public HasButtons{
 public:
-	Display(int, string, int);
+	Display(int, char*, int);
+	bool hasMemory();
+	bool hasButtons();
 };

@@ -2,7 +2,9 @@
 #include "ComputerPart.h"
 #include "HasButtons.h"
 
-class Mouse: public ComputerPart, virtual HasButtons{
+class Mouse: public ComputerPart, public HasButtons{
 public:
-	Mouse(int, string, int);
+	Mouse(int, char*, int);
+	bool hasMemory();
+	bool hasButtons();
 };

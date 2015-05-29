@@ -2,7 +2,9 @@
 #include "ComputerPart.h"
 #include "HasMemory.h"
 
-class HDD: public ComputerPart, virtual HasMemory{
+class HDD: public ComputerPart, public HasMemory{
 public:
-	HDD(int, string, int, int);
+	HDD(int, char*, int, int);
+	bool hasMemory();
+	bool hasButtons();
 };

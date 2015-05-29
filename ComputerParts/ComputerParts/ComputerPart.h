@@ -5,17 +5,19 @@ using namespace std;
 class ComputerPart {
 
 private:
-	string type;
+	char* name;
+	char* type;
 	int price;
-	string name;
 
 protected:
 	virtual void setPrice(int price);
-	virtual void setName(string name);
-	virtual void setType(string type);
+	virtual void setName(char* name);
+	virtual void setType(char* type);
 
 public:
+	virtual bool hasMemory() = 0;
+	virtual bool hasButtons() = 0;
 	virtual int getPrice();
-	virtual string getName();
-	virtual string getType();
+	virtual char* getName();
+	virtual char* getType();
 };

@@ -7,14 +7,13 @@ using namespace std;
 
 class Punct2DColorat : public Punct2D{
 public:
-	Punct2DColorat(string, int, int);
-private:
-	string culoare;
+	Punct2DColorat(char*, int, int);
 
-protected:
-	void setCuloare(string);
+private:
+	char* culoare;
+	void setCuloare(char*);
 
 public:
-	string getCuloare();
-	friend ostream& operator<<(ostream& out, Punct2DColorat&);
+	char* getCuloare();
+	friend ostream& operator<<(ostream& out, Punct2DColorat*);
 };

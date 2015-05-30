@@ -24,8 +24,8 @@ void Punct2D::setY(int y){
 	this->y = y;
 }
 
-ostream& operator<<(ostream& out, Punct2D& punct) {
-	out << endl << "X: " << punct.getX() << endl;
-	out << "Y: " << punct.getY()<< endl;
+ostream& operator<<(ostream& out, Punct2D* punct) {
+	out << endl << "X: " << punct->getX() << endl;
+	out << "Y: " << punct->getY()<< endl;
 	return out;
 }

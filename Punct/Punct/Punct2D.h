@@ -15,7 +15,7 @@ protected:
 	void setY(int);
 
 public:
-	int getX();
-	int getY();
-	friend ostream& operator<<(ostream& out, Punct2D&);
+	virtual int getX();
+	virtual int getY();
+	friend ostream& operator<<(ostream& out, Punct2D*);
 };

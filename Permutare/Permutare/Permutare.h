@@ -7,17 +7,18 @@ class Permutare{
 
 private:
 	int size;
-	int **permutare;
+	int *permutare;
 
 protected:
 	void setSize(int);
-	void setPermutare(int ** );
+	void setPermutare(int*);
 public:
-	int** getPermutare();
+	int* getPermutare();
 	int getSize();
 	Permutare();
-	Permutare(int,int **);
+	Permutare(int, int*);
 	~Permutare();
 	bool isPermutare();
+	bool isIdentitate();
 
 };
